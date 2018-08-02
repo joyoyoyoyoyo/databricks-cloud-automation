@@ -5,18 +5,18 @@
       "Sid": "Example permissions",
       "Effect": "Allow",
       "Principal": {
-          "AWS": "arn:aws:iam::${aws_account_id_databricks}:role/${s3_cross_account_role}"
+          "AWS": "arn:aws:iam::${aws_account_id}:role/${s3_cross_account_role}"
       },
       "Action": [
           "s3:GetBucketLocation",
           "s3:ListBucket"
       ],
-      "Resource": "arn:aws:s3:::<aws-s3-bucket-name>"
+      "Resource": "arn:aws:s3:::${unload_bucket_name}"
     },
     {
       "Effect": "Allow",
       "Principal": {
-          "AWS": "arn:aws:iam::${aws_account_id_databricks}:role/${s3_cross_account_role}"
+          "AWS": "arn:aws:iam::${aws_account_id}:role/${s3_cross_account_role}"
       },
       "Action": [
           "s3:PutObject",
