@@ -55,7 +55,7 @@ resource "aws_iam_role" "unload_role" {
 # Need to explicitally specify the instance profile for the role as well
 resource "aws_iam_instance_profile" "unload_role_instance_profile" {
   name = "${aws_iam_role.unload_role.name}"
-  roles = ["${aws_iam_role.unload_role.name}"]
+  role = "${aws_iam_role.unload_role.name}"
 }
 
 # Attach an inline policy to the role
@@ -81,7 +81,7 @@ data "template_file" "unload_policy_config" {
 
 
 
-# Set up pass through:
+# Set up pass through from the shard role:
 
 # New policy gets added to the existing Databricks EC2 role:
 resource "aws_iam_policy" "pass_through_policy" {
@@ -99,7 +99,7 @@ data "template_file" "pass_through_policy_config" {
   template = "${file("${path.module}/policies/pass_through_policy.template.json")}"
   vars = {
     aws_account_id_databricks = "${data.aws_caller_identity.current.account_id}"
-    iam_role_for_s3_access = "${aws_iam_role.unload_role.name}"  
+    iam_role_for_s3_access = "${aws_iam_role.unload_role.name}"
   }
 }
 
@@ -117,7 +117,7 @@ data "aws_iam_instance_profile" "unload_role_instance_profile" {
 # data.aws_iam_instance_profile.unload_role_instance_profile.arn
 
 output "result" {
-  value = "Databricks > Admin Console > IAM roles > Add IAM Role > Enter the following: '${aws_iam_instance_profile.unload_role_instance_profile.arn}'"
+  value = "Databricks > Admin Console > IAM roles > Add IAM Role > Enter the following: '${aws_iam_instance_profile.unload_role_instance_profile.arn}'\n To test, attach the IAM role to a cluster and run: 'dbutils.fs.ls('s3a://${aws_s3_bucket.unload_bucket.id}')'"
 }
 
 
