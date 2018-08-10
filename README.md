@@ -1,3 +1,5 @@
+IMPORTANT: BEFORE MAKING THIS REPO PUBLIC REMOVE ALL THE TEST CONFIG FILES, the include access/secret
+
 Connect to existing Redshift from Databricks
 dillon.bostwick@databricks.com
 
