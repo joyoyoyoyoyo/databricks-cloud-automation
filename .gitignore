@@ -1,7 +1,6 @@
-redlift/dillon-test.tfvars
-
-.DS_Store
+**/.DS_Store
 **/dillon-test.tfvars
-terraform.tfstate
-terraform.tfstate.backup
-.terraform/**
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/.terraform/**
+**/.terraform*
