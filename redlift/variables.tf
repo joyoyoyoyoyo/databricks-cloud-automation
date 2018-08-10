@@ -31,7 +31,12 @@ variable "custom_redshift_iam_role_name" {
   default = "redshift-unload-to-databricks"
 }
 
-# Ideally these would be pulled from tfstate
-variable "redshift_config" {
-  type = "map"
+variable "redshift_cluster_id" {
+  type = "string"
+  description = "Identifier of the target Redshift cluster to connect"
+}
+
+variable "databricks_shard_name" {
+  type = "string"
+  description = "Databricks shard name. Contact sales@databricks.com to determine this from an existing deployment or to deploy Databricks"
 }
