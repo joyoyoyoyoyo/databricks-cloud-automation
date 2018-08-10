@@ -7,7 +7,7 @@
             "s3:ListBucket"
         ],
        "Resource": [
-            "arn:aws:s3:::${unload_bucket_name}"
+            "arn:aws:s3:::${target_bucket_name}"
         ]
       },
       {
@@ -19,7 +19,7 @@
             "s3:PutObjectAcl"
         ],
         "Resource": [
-           "arn:aws:s3:::${unload_bucket_name}/*"
+           "arn:aws:s3:::${target_bucket_name}/*"
       ]
     }
   ]
