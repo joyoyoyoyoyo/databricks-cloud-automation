@@ -7,18 +7,17 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
+provider "http" {}
 data "aws_caller_identity" "current" {}
-
-
 
 # Set up bucket policy:
 
 data "aws_s3_bucket" "target_s3_bucket" {
-  name = "${var.bucket_name}"
+  bucket = "${var.s3_bucket_name}"
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = "${aws_s3_bucket.target_s3_bucket.id}"
+  bucket = "${data.aws_s3_bucket.target_s3_bucket.id}"
   policy = "${data.template_file.bucket_policy.rendered}"
 }
 
@@ -27,7 +26,7 @@ data "template_file" "bucket_policy" {
   vars = {
     aws_account_id = "${data.aws_caller_identity.current.account_id}"
     s3_cross_account_role = "${aws_iam_role.databricks_to_s3_role.id}"
-    target_bucket_name = "${aws_s3_bucket.target_s3_bucket.id}"
+    target_bucket_name = "${data.aws_s3_bucket.target_s3_bucket.id}"
   }
 }
 
@@ -61,12 +60,9 @@ resource "aws_iam_role_policy_attachment" "attach_policy_to_role" {
 data "template_file" "databricks_to_s3_policy_config" {
   template = "${file("${path.module}/policies/role_policy.template.json")}"
   vars = {
-    target_bucket_name = "${aws_s3_bucket.target_s3_bucket.id}"
+    target_bucket_name = "${data.aws_s3_bucket.target_s3_bucket.id}"
   }
 }
-
-
-
 
 
 # Set up pass through from the shard role:
@@ -78,7 +74,7 @@ resource "aws_iam_policy" "pass_through_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_pass_through_policy_to_databricks_bucket_role" {
-  role = "${var.db_deployment_role}"
+  role = "${var.databricks_deployment_role}"
   policy_arn = "${aws_iam_policy.pass_through_policy.arn}"
 }
 
@@ -97,9 +93,21 @@ data "aws_iam_instance_profile" "databricks_to_s3_role_instance_profile" {
   name = "${aws_iam_role.databricks_to_s3_role.id}"
 }
 
-output "result" {
-  value = "Databricks > Admin Console > IAM roles > Add IAM Role > Enter the following: '${aws_iam_instance_profile.databricks_to_s3_role_instance_profile.arn}'\n To test, attach the IAM role to a cluster and run: 'dbutils.fs.ls('s3a://${aws_s3_bucket.target_s3_bucket.id}')'"
+# TODO FIGURE OUT HOW TO GET THE URL OF THE SHARD
+# Use Instance Profiles API to add the new role
+# data "http" "add_instance_profile_to_databricks" {
+#   url = "${}/api/2.0/instance-profiles/add"
+
+#   request_headers {
+#     "Content-Type" = "application/json"
+#     "Authorization" = "Bearer ${var.databricks_access_token}"
+#   }
+
+#   body = "{ \"instance_profile_arn\": \"${data.aws_iam_instance_profile.databricks_to_s3_role_instance_profile.arn}\" }"
+# }
+
+# Output the role name so user can attach to cluster:
+
+output "s3_role_name_to_attach" {
+  value = "${aws_iam_role.databricks_to_s3_role.name}"
 }
-
-
-

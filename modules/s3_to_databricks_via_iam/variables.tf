@@ -1,18 +1,4 @@
-variable "bucket_name" {
-  type = "string"
-  description = "Name of the bucket to connect"
-}
-
-variable "custom_iam_role_name" {
-  type = "string"
-  description = "Optionally assign a custom name to the IAM role"
-  default = "databricks_to_s3_role"
-}
-
-variable "db_deployment_role" {
-  type = "string"
-  description = "The IAM role used to originally deploy the Databricks shard. Databricks homepage > Account Console > AWS Account > note the role name at the end of the Role ARN"
-}
+# Required variables:
 
 variable "aws_access_key" {
   type = "string"
@@ -27,4 +13,27 @@ variable "aws_secret_key" {
 variable "aws_region" {
   type = "string"
   description = "The region where AWS operations will take place"
+}
+
+variable "s3_bucket_name" {
+  type = "string"
+  description = "Name of the bucket to connect"
+}
+
+variable "databricks_deployment_role" {
+  type = "string"
+  description = "Role used to deploy Databricks. This may be determine from the account management console"
+}
+
+variable "databricks_access_token" {
+  type = "string"
+  description = "Databricks API access token"
+}
+
+# Optional variables:
+
+variable "custom_iam_role_name" {
+  type = "string"
+  description = "Optionally assign a custom name to the IAM role"
+  default = "databricks-to-s3-role"
 }

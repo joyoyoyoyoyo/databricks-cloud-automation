@@ -25,6 +25,22 @@ variable "custom_unload_bucket_name" {
   default = "redshift-unload-to-databricks"
 }
 
+variable "custom_iam_role_name_for_s3_conection" {
+  type = "string"
+  description = "Optionally asign a custom name to the role to allow Redshift to access the unload bucket"
+  default = "databricks-to-redshift-unload-s3-role"
+}
+
+variable "databricks_access_token" {
+  type = "string"
+  description = "Databricks API access token"
+}
+
+variable "databricks_deployment_role" {
+  type = "string"
+  description = "Role used to deploy Databricks. This may be determine from the account management console"
+}
+
 variable "custom_redshift_iam_role_name" {
   type = "string"
   description = "Optionally assign a custom name to the IAM role which will attach to the Redshift cluster and allow unloading query results to the S3 bucket"
@@ -38,5 +54,5 @@ variable "redshift_cluster_id" {
 
 variable "databricks_shard_name" {
   type = "string"
-  description = "Databricks shard name. Contact sales@databricks.com to determine this from an existing deployment or to deploy Databricks"
+  description = "Name of deployed Databricks shard. Contact sales@databricks.com for help determining your shard name or deploying a Databricks shard."
 }
