@@ -6,6 +6,12 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
+provider "http" {}
+
+# Get existing Redshift cluster
+data "aws_redshift_cluster" "existing_cluster" {
+  cluster_identifier = "${var.redshift_cluster_id}"
+}
 
 ### 1 ### Create unload bucket for query results:
 
@@ -39,24 +45,10 @@ module "s3_to_databricks_via_iam" {
 
 ### 2 ### Create role for Redshfit to access the unload bucket:
 
-# Get existing Redshift cluster
-data "aws_redshift_cluster" "existing_cluster" {
-  cluster_identifier = "${var.redshift_cluster_id}"
-}
-
 # Establish role with AmazonS3ReadOnlyAccess
 resource "aws_iam_role" "redshift_unload_bucket_role" {
   name = "${var.custom_unload_bucket_name}"
   assume_role_policy = "${file("${path.module}/policies/assume_role_policy.json")}"
-
-  # Attach role to existing Redshift cluster:
-  provisioner "local-exec" {
-    command = "python attach_role_to_cluster.py"
-    environment {
-      "CLUSTER_ID" = "${data.aws_redshift_cluster.existing_cluster.id}"
-      "ROLE_ARN" = "${aws_iam_role.redshift_unload_bucket_role.arn}"
-    }
-  }
 }
 
 # Apply the existing aws policy, AmazonS3ReadOnlyAccess, to the new role
@@ -65,6 +57,27 @@ resource "aws_iam_role_policy_attachment" "attach_s3_permissions_to_redshift_rol
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
+# Attach role to redshift cluster
+# Note this is a temporary workaround until Terraform supports adding/removing single
+# roles to Redshift clusters
+resource "null_resource" "attach_role_to_cluster" {
+  # If the role and/or cluster changes, reapply the python script
+  triggers {
+    unload_role = "${aws_iam_role.redshift_unload_bucket_role.name}"
+    cluster_id = "${data.aws_redshift_cluster.existing_cluster.id}"
+  }
+
+  provisioner "local-exec" {
+    command = <<EOF
+    python ${path.module}/attach_role_to_cluster/main.py\
+    ${var.aws_access_key}\
+    ${var.aws_secret_key}\
+    ${var.aws_region}\
+    ${data.aws_redshift_cluster.existing_cluster.id}\
+    ${aws_iam_role.redshift_unload_bucket_role.arn}
+    EOF
+  }
+}
 
 ### 3 ### Establish VPC peering and new routes
 
