@@ -95,7 +95,7 @@ data "aws_iam_instance_profile" "databricks_to_s3_role_instance_profile" {
 
 # Use Instance Profiles API to add the new role
 data "http" "add_instance_profile_to_databricks" {
-  url = "${var.databricks_shard_url}/api/2.0/instance-profiles/add"
+  url = "${var.databricks_shard_url}Cust/api/2.0/instance-profiles/add"
 
   request_headers {
     "Content-Type" = "application/json"
