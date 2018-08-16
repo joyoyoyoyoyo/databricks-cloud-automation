@@ -56,3 +56,8 @@ variable "databricks_shard_name" {
   type = "string"
   description = "Name of deployed Databricks shard. Contact sales@databricks.com for help determining your shard name or deploying a Databricks shard."
 }
+
+variable "databricks_shard_url" {
+  type = "string"
+  description = "URL to access Databricks shard"
+}

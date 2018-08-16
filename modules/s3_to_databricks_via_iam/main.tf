@@ -93,18 +93,17 @@ data "aws_iam_instance_profile" "databricks_to_s3_role_instance_profile" {
   name = "${aws_iam_role.databricks_to_s3_role.id}"
 }
 
-# TODO FIGURE OUT HOW TO GET THE URL OF THE SHARD
 # Use Instance Profiles API to add the new role
-# data "http" "add_instance_profile_to_databricks" {
-#   url = "${}/api/2.0/instance-profiles/add"
+data "http" "add_instance_profile_to_databricks" {
+  url = "${var.databricks_shard_url}/api/2.0/instance-profiles/add"
 
-#   request_headers {
-#     "Content-Type" = "application/json"
-#     "Authorization" = "Bearer ${var.databricks_access_token}"
-#   }
+  request_headers {
+    "Content-Type" = "application/json"
+    "Authorization" = "Bearer ${var.databricks_access_token}"
+  }
 
-#   body = "{ \"instance_profile_arn\": \"${data.aws_iam_instance_profile.databricks_to_s3_role_instance_profile.arn}\" }"
-# }
+  body = "{ \"instance_profile_arn\": \"${data.aws_iam_instance_profile.databricks_to_s3_role_instance_profile.arn}\" }"
+}
 
 # Output the role name so user can attach to cluster:
 

@@ -6,8 +6,6 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
-provider "http" {}
-
 # Get existing Redshift cluster
 data "aws_redshift_cluster" "existing_cluster" {
   cluster_identifier = "${var.redshift_cluster_id}"
@@ -39,8 +37,14 @@ module "s3_to_databricks_via_iam" {
   databricks_deployment_role = "${var.databricks_deployment_role}"
   databricks_access_token = "${var.databricks_access_token}"
   custom_iam_role_name = "${var.custom_iam_role_name_for_s3_conection}"
+  databricks_shard_url = "${var.databricks_shard_url}"
 
   s3_bucket_name = "${aws_s3_bucket.unload_bucket.bucket}"
+}
+
+# Pass through the local value so user can see which name to attach to their Databricks clusters
+output "s3_role_name_to_attach" {
+  value = "${module.s3_to_databricks_via_iam.s3_role_name_to_attach}"
 }
 
 ### 2 ### Create role for Redshfit to access the unload bucket:

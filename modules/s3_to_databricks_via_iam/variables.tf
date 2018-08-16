@@ -37,3 +37,8 @@ variable "custom_iam_role_name" {
   description = "Optionally assign a custom name to the IAM role"
   default = "databricks-to-s3-role"
 }
+
+variable "databricks_shard_url" {
+  type = "string"
+  description = "URL to access Databricks shard"
+}
