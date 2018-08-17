@@ -31,11 +31,6 @@ variable "custom_iam_role_name_for_s3_conection" {
   default = "databricks-to-redshift-unload-s3-role"
 }
 
-variable "databricks_access_token" {
-  type = "string"
-  description = "Databricks API access token"
-}
-
 variable "databricks_deployment_role" {
   type = "string"
   description = "Role used to deploy Databricks. This may be determine from the account management console"
@@ -57,7 +52,12 @@ variable "databricks_shard_name" {
   description = "Name of deployed Databricks shard. Contact sales@databricks.com for help determining your shard name or deploying a Databricks shard."
 }
 
-variable "databricks_shard_url" {
-  type = "string"
-  description = "URL to access Databricks shard"
-}
+# variable "databricks_shard_url" {
+#   type = "string"
+#   description = "URL to access Databricks shard"
+# }
+
+# variable "databricks_access_token" {
+#   type = "string"
+#   description = "Databricks API access token"
+# }
