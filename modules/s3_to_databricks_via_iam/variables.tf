@@ -25,11 +25,6 @@ variable "databricks_deployment_role" {
   description = "Role used to deploy Databricks. This may be determine from the account management console"
 }
 
-variable "databricks_access_token" {
-  type = "string"
-  description = "Databricks API access token"
-}
-
 # Optional variables:
 
 variable "custom_iam_role_name" {
@@ -38,7 +33,14 @@ variable "custom_iam_role_name" {
   default = "databricks-to-s3-role"
 }
 
-variable "databricks_shard_url" {
-  type = "string"
-  description = "URL to access Databricks shard"
-}
+
+
+# variable "databricks_shard_url" {
+#   type = "string"
+#   description = "URL to access Databricks shard"
+# }
+
+# variable "databricks_access_token" {
+#   type = "string"
+#   description = "Databricks API access token"
+# }

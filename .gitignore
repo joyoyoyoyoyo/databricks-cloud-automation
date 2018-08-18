@@ -1,6 +1,6 @@
 **/.DS_Store
-**/dillon-test.tfvars
-**/terraform.tfstate
-**/terraform.tfstate.backup
+**/*.tfvars
+**/*.tfstate
+**/*.tfstate.backup
 **/.terraform/**
 **/.terraform*
