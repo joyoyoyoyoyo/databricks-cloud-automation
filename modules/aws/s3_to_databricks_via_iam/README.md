@@ -1,0 +1,20 @@
+## Description
+
+Authenticate Databricks to an external S3 bucket via IAM roles.
+
+This module can be used as both a root module (simple authentication to S3) or as a submodule (when authenticating to S3 bucket is one step in a larger integration)
+
+## Example Use Cases:
+
+- Mounting an existing (legacy) bucket to DBFS (to read/write with Databricks)
+- Accessing S3 directly from Databricks (to read/write with Databricks)
+- An "UNLOAD" bucket for Redshift integration
+
+## Scope:
+
+This module is closely based off the existing documentation:
+https://docs.databricks.com/administration-guide/cloud-configurations/aws/iam-roles.html
+This module can be used as an automated alternative to this documentation.
+
+- This module assumes the external S3 bucket already exsits. It will not attempt to create the bucket if it is not found.
+- This module uses IAM roles to authenticate to S3. It does not use access keys.
