@@ -42,15 +42,6 @@ module "s3_to_databricks_via_iam" {
   s3_bucket_name = "${aws_s3_bucket.unload_bucket.bucket}"
 }
 
-# Pass through the local value so user can see which name to attach to their Databricks clusters
-output "s3_role_name_to_attach" {
-  value = "${module.s3_to_databricks_via_iam.s3_role_name_to_attach}"
-}
-
-output "s3_role_instance_profile" {
-  value = "${module.s3_to_databricks_via_iam.s3_role_instance_profile}"
-}
-
 ### 2 ### Create role for Redshfit to access the unload bucket:
 
 # Establish role with AmazonS3ReadOnlyAccess
