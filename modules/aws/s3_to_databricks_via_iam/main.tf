@@ -104,15 +104,3 @@ data "aws_iam_instance_profile" "databricks_to_s3_role_instance_profile" {
 
 #   body = "{ \"instance_profile_arn\": \"${data.aws_iam_instance_profile.databricks_to_s3_role_instance_profile.arn}\" }"
 # }
-
-# Output instance profile to add to Databricks:
-
-output "s3_role_instance_profile" {
-  value = "${data.aws_iam_instance_profile.databricks_to_s3_role_instance_profile.arn}"
-}
-
-# Output the role name so user can attach to cluster:
-
-output "s3_role_name_to_attach" {
-  value = "${aws_iam_role.databricks_to_s3_role.name}"
-}

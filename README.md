@@ -32,7 +32,9 @@ The purpose of this project is to reduce the time it takes to deliver and troubl
 
 ### terraform overview
 
-todo
+https://www.terraform.io/intro/index.html
+
+Terraform allows infrastructure config to be described with a high-level, declarative syntax. It uses this to generate an "execution plan" which is based off the difference between your infrastructure's current state and the desired state. It also features a "resource graph" which is a DAG that resolve dependencies between desired resources to determine an execution ordering. These features allow terraform to efficiently and easily handle infrastructure compliance as complex resource plans change and config drifts.
 
 ### State
 
@@ -56,11 +58,11 @@ In addition, you should ensure that you do not remove existing state file or use
 
 #### Root modules vs. submodules
 
-todo
+To account for separation of concerns and the "single responsibility principle" terraform allows modules to invoke other modules. A module inside a module is treated like any other resource entity. The output of the module become its attributes, in the same way that for example the ARN of some arbitrary AWS resource becomes that resource's attribute. We use the term "root module" to refer to one that a user invokes directly and "submodule" to refer to a module invoked by another root module or submodule. It is encouraged that as you develop new modules you avoid reinventing the wheel and leverage our existing modules as much as possible.
 
 #### Module variables
 
-todo
+All modules have input referred to as "variables" and output. While these can be declared anywhere, please keep variables in a file `variables.tf` and outputs in a file `outputs.tf` so that consumers of that module can easily see its interface -- both human users and module developers should refer to these files for guidance. This is especially useful as <b>variables with a default value (i.e. overrideable variables) will not be prompted if a `-var-file` is not provided and thus can only be determined by inspecting the `variables.tf` file</b>
 
 ## Contributing
 
