@@ -1,5 +1,5 @@
 # Databricks Cloud Automation Modules
-<i>For Field Engineers and Customers</i>
+<i>Simplify, accelerate, and secure Databricks cloud migration projects</i>
 
 ## Introduction
 
