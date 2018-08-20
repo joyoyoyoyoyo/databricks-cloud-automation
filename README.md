@@ -1,5 +1,5 @@
 # Databricks Cloud Automation Modules
-<i>Simplify, accelerate, and secure Databricks cloud migration projects</i>
+<i>Simplify, accelerate, and secure Databricks cloud deployments</i>
 
 ## Introduction
 
@@ -83,4 +83,4 @@ There are a number ways you can help to make this project great.
 	- Create a new submodule to be levaraged by new root modules - for example there are many pages in the Databricks docs that describe low-level tasks like IAM authentication via roles and access keys. This is a low-hanging fruit for new contributors!
 
 
-If you have questions about getting involved or have an idea for a new module, reach out to field-eng@databricks.com or dillon.bostwick@databricks.com
+If you have questions about getting involved or have an idea for a new module, reach out to sales@databricks.com.
