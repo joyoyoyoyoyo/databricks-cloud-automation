@@ -67,7 +67,7 @@ All modules have input referred to as "variables" and output. While these can be
 
 ## Contributing
 
-Please submit a detailed GitHub Pull Request for any changes. PRs are more likely to get approved if they correspond to an open, reviewed issue.
+All changes should be submitted via a detailed GitHub Pull Request to the `master` branch. PRs are more likely to get approved if they correspond to an open, reviewed issue.
 
 There are a number ways you can help to make this project great.
 
