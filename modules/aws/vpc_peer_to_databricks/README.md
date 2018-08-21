@@ -13,7 +13,6 @@ This includes the peering itself, configuring route tables, and updating securit
 	- Cassandra
 	- EMR / Hive Metastore
 	- Aurora
-- s
 
 ## Scope:
 
