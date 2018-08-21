@@ -1,4 +1,4 @@
-## Description
+## Description:
 
 Authenticate Databricks to an external S3 bucket via IAM roles.
 
