@@ -33,6 +33,8 @@ The purpose of this project is to reduce the time it takes to deliver and troubl
 
 ### terraform overview
 
+![Terraform high level architecture](http://raw.githubusercontent.com/databricks/databricks-terraform-modules/master/img/terraform-overview.png)
+
 https://www.terraform.io/intro/index.html
 
 Terraform allows infrastructure config to be described with a high-level, declarative syntax. It uses this to generate an "execution plan" which is based off the difference between your infrastructure's current state and the desired state. It also features a "resource graph" which is a DAG that resolve dependencies between desired resources to determine an execution ordering. These features allow terraform to efficiently and easily handle infrastructure compliance as complex resource plans change and config drifts.
