@@ -33,7 +33,7 @@ The purpose of this project is to reduce the time it takes to deliver and troubl
 
 ### terraform overview
 
-![Terraform high level architecture](http://raw.githubusercontent.com/databricks/databricks-terraform-modules/master/img/terraform-overview.png)
+![Terraform high level architecture](raw.githubusercontent.com/databricks/databricks-terraform-modules/master/terraform-overview.png)
 
 https://www.terraform.io/intro/index.html
 
