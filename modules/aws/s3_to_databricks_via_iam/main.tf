@@ -7,7 +7,8 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
-provider "http" {}
+# provider "http" {}
+
 data "aws_caller_identity" "current" {}
 
 # Set up bucket policy:

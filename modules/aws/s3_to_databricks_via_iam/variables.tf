@@ -30,7 +30,6 @@ variable "databricks_deployment_role" {
 variable "custom_iam_role_name" {
   type = "string"
   description = "Optionally assign a custom name to the IAM role"
-  default = "databricks-to-s3-role"
 }
 
 

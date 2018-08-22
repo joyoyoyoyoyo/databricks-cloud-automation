@@ -22,13 +22,11 @@ variable "aws_region" {
 variable "custom_unload_bucket_name" {
   type = "string"
   description = "Optionally assign a custom name to the temporary S3 bucket which is used to unload query results from Redshift"
-  default = "redshift-unload-to-databricks"
 }
 
 variable "custom_iam_role_name_for_s3_conection" {
   type = "string"
   description = "Optionally asign a custom name to the role to allow Redshift to access the unload bucket"
-  default = "databricks-to-redshift-unload-s3-role"
 }
 
 variable "databricks_deployment_role" {
@@ -39,7 +37,6 @@ variable "databricks_deployment_role" {
 variable "custom_redshift_iam_role_name" {
   type = "string"
   description = "Optionally assign a custom name to the IAM role which will attach to the Redshift cluster and allow unloading query results to the S3 bucket"
-  default = "redshift-unload-to-databricks"
 }
 
 variable "redshift_cluster_id" {
