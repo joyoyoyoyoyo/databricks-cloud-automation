@@ -18,6 +18,6 @@ A visualization of these steps is available here: https://docs.databricks.com/sp
 
 - This module assumes that the Redshift cluster already exists. It will not attempt to create the Redhshift cluster if it is not found.
 - This module assumes that the Redshift cluster already exists in a VPC.
-- This module assumes that the Redshift cluster is not configured to use a public IP address.
+- This module assumes that the Redshift cluster is not configured to use a public IP address. (You must specify "not publicly accessible" when configuring).
 	- This is because currently as of this writing a Redshift public IP address actually precludes a private IP address. The VPC peering submodule requires a private IP address as this is the entry it adds to the VPC route table.
 - This module does not perform Sparl driver level configuration including JDBC driver installation and any necessary Databricks Redshift connectors. Please refer to docs.databricks.com/spark/latest/data-sources/aws/amazon-redshift.html#installation for guidance.
