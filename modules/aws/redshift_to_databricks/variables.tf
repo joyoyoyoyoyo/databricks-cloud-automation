@@ -44,9 +44,9 @@ variable "redshift_cluster_id" {
   description = "Identifier of the target Redshift cluster to connect. This may be found in the 'Cluster' column in the AWS UI and is the user-specified name for that cluster."
 }
 
-variable "databricks_workspace_name" {
+variable "databricks_vpc_id" {
   type = "string"
-  description = "Name of deployed Databricks workspace. Contact sales@databricks.com for help determining your workspace name or deploying a Databricks workspace."
+  description = "ID of VPC which was used to deploy Databricks. Contact sales@databricks.com for help determining your Databricks VPC ID or deploying a Databricks workspace."
 }
 
 # variable "databricks_workspace_url" {

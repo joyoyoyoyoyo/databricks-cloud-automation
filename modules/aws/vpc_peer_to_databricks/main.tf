@@ -11,9 +11,7 @@ data "aws_vpc" "foreign_vpc" {
 
 # Get VPC of the Databricks deployment
 data "aws_vpc" "databricks_vpc" {
-  tags = {
-    Name = "${var.databricks_workspace_name}"
-  }
+  id = "${var.databricks_vpc_id}"
 }
 
 # Get existing route table associated with the databricks vpc id

@@ -18,9 +18,9 @@ variable "foreign_vpc_id" {
   description = "ID of the VPC to which the Databricks VPC should peer (i.e. the VPC thats not the Databricks VPC)"
 }
 
-variable "databricks_workspace_name" {
+variable "databricks_vpc_id" {
   type = "string"
-  description = "Name of deployed Databricks workspace. Contact sales@databricks.com for help determining your workspace name or deploying a Databricks workspace."
+  description = "ID of VPC which was used to deploy Databricks. Contact sales@databricks.com for help determining your Databricks VPC ID or deploying a Databricks workspace."
 }
 
 variable "port_to_allow" {
