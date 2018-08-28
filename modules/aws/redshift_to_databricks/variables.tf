@@ -21,17 +21,17 @@ variable "aws_region" {
 
 variable "custom_unload_bucket_name" {
   type = "string"
-  description = "Optionally assign a custom name to the temporary S3 bucket which is used to unload query results from Redshift"
+  description = "Assign a name to the temporary S3 bucket which is used to unload query results from Redshift"
 }
 
 variable "custom_iam_role_name_for_s3_conection" {
   type = "string"
-  description = "Optionally asign a custom name to the role to allow Redshift to access the unload bucket"
+  description = "Assign a name to the role to allow Redshift to access the unload bucket"
 }
 
 variable "databricks_deployment_role" {
   type = "string"
-  description = "Role used to deploy Databricks. This may be determine from the account management console"
+  description = "Role used to deploy Databricks. This may be determine from the Databricks account management console"
 }
 
 variable "custom_redshift_iam_role_name" {
@@ -41,17 +41,17 @@ variable "custom_redshift_iam_role_name" {
 
 variable "redshift_cluster_id" {
   type = "string"
-  description = "Identifier of the target Redshift cluster to connect"
+  description = "Identifier of the target Redshift cluster to connect. This may be found in the 'Cluster' column in the AWS UI and is the user-specified name for that cluster."
 }
 
-variable "databricks_shard_name" {
+variable "databricks_workspace_name" {
   type = "string"
-  description = "Name of deployed Databricks shard. Contact sales@databricks.com for help determining your shard name or deploying a Databricks shard."
+  description = "Name of deployed Databricks workspace. Contact sales@databricks.com for help determining your workspace name or deploying a Databricks workspace."
 }
 
-# variable "databricks_shard_url" {
+# variable "databricks_workspace_url" {
 #   type = "string"
-#   description = "URL to access Databricks shard"
+#   description = "URL to access Databricks workspace"
 # }
 
 # variable "databricks_access_token" {

@@ -66,7 +66,7 @@ data "template_file" "databricks_to_s3_policy_config" {
 }
 
 
-# Set up pass through from the shard role:
+# Set up pass through from the workspace role:
 
 # New policy gets added to the existing Databricks EC2 role:
 resource "aws_iam_policy" "pass_through_policy" {
@@ -96,7 +96,7 @@ data "aws_iam_instance_profile" "databricks_to_s3_role_instance_profile" {
 
 # # Use Instance Profiles API to add the new role
 # data "http" "add_instance_profile_to_databricks" {
-#   url = "${var.databricks_shard_url}Cust/api/2.0/instance-profiles/add"
+#   url = "${var.databricks_workspace_url}Cust/api/2.0/instance-profiles/add"
 
 #   request_headers {
 #     "Content-Type" = "application/json"

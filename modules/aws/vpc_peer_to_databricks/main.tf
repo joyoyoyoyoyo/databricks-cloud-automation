@@ -12,7 +12,7 @@ data "aws_vpc" "foreign_vpc" {
 # Get VPC of the Databricks deployment
 data "aws_vpc" "databricks_vpc" {
   tags = {
-    Name = "${var.databricks_shard_name}"
+    Name = "${var.databricks_workspace_name}"
   }
 }
 

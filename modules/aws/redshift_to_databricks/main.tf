@@ -36,7 +36,7 @@ module "s3_to_databricks_via_iam" {
   aws_region = "${var.aws_region}"
   databricks_deployment_role = "${var.databricks_deployment_role}"
   custom_iam_role_name = "${var.custom_iam_role_name_for_s3_conection}"
-  # databricks_shard_url = "${var.databricks_shard_url}"
+  # databricks_workspace_url = "${var.databricks_workspace_url}"
   # databricks_access_token = "${var.databricks_access_token}"
 
   s3_bucket_name = "${aws_s3_bucket.unload_bucket.bucket}"
@@ -90,6 +90,6 @@ module "vpc_peer_to_databricks" {
   aws_region = "${var.aws_region}"
 
   foreign_vpc_id = "${data.aws_redshift_cluster.existing_cluster.vpc_id}"
-  databricks_shard_name = "${var.databricks_shard_name}"
+  databricks_workspace_name = "${var.databricks_workspace_name}"
   port_to_allow = 5439
 }

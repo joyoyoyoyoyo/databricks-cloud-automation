@@ -3,33 +3,39 @@
 
 ## Introduction
 
-The purpose of this project is to reduce the time it takes to deliver and troubleshoot common cloud workloads and scenarios with Databricks. 
+This project aims to reduce the time it takes to deliver and troubleshoot common cloud workloads and scenarios with Databricks. 
 
-## Installation and Quick Start
+## Quick Start
 
 1. Install terraform. 
 	- For generic installation instructions, see https://www.terraform.io/intro/getting-started/install.html.
-	- On MacOS, you may run `brew install terraform`
-	- On Linux, you may run:
+	- MacOS via brew: `brew install terraform`
+	- Linux via wget:
 		`wget https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip?_ga=2.244423109.1597180439.1514829700-1217072508.1514829700
 		unzip terraform
 		mv terraform /usr/local/bin/` 
-2. Verify terraform installation by running `terraform`. This is also an opportunity to get familiar with terraform's commands.
-3. Navigate to the `modules` directory. Each directory here represents a terraform module.
-	Key points:
-	- Each module should include a README which describes its purpose and use.
-	- Note that some modules invoke other modules (in this case we call the invoker a "root module" and the invoked a "submodule").
-	- Modules do not need to be installed; they are interpreted by terraform.
-4. Select the module you wish to use and navigate to it using the `cd` command
-5. Run `terraform init` to install prerequisite dependencies
-6. Run `terraform apply`. Without any flags, it will begin to prompt you for needed parameters.
-7. Inspect the resulting "terraform plan" to determine what it will add, modify, or remove.
-8. (optional) Input `yes` if you would like to execute the plan. Logs will indicate real-time modifications to your infrastructure. If an error occurs, the prior changes will not roll back, but the current state will be saved so that when you perform a subsequent `apply`, the plan will reflect only the remaining changes and will not re-execute what has already been applied.
+2. Verify installation via running `terraform`
+	(This is also an opportunity to get familiar with terraform's commands)
+3. Navigate to `modules` directory. Each directory here represents a terraform module
+	- Each module includes a README which describes its purpose
+	- Modules can invoke other modules
+	- Modules are interpreted by terraform
+4. Navigate to a sample module e.g. `cd s3_to_databricks_via_iam`
+5. Run `terraform init`
+6. Run `terraform apply` and answer the prompt for needed varibles.
+7. The resulting "terraform plan" to determine what it will add, modify, or remove. Review this plan carefully
 
-9.  Now that you have an idea of which variables are needed, you can store these as JSON or HCL in a file such as `my-vars.tfvars` and reference them with `terraform apply -var-file=vars.tfvars`.
-	- Naming your file `terraform.tfvars` will cause it to load automatically.
+Optional steps:
 
-## Advanced Guide
+8. Input `yes` if you would like to execute the plan.
+	- Logs will indicate real-time modifications to your infrastructure.
+	- If an error occurs, the prior changes will not roll back, but the current state will be for a subsequent `apply`
+9. You can save your variables in a JSON file to avoid having to answer the prompt each time you `apply` by using the `-var-file` flag
+	- Example: `terraform apply -var-file=/path/to/vars.tfvars`
+10. Some modules have extra variables that you weren't prompted for. If you specify them in your tfvars file they will be overwritten. To see the full list of variables for the module, inspect the module's `variables.tf` file.
+
+
+## User Guide
 
 ### Terraform Overview
 
@@ -37,37 +43,47 @@ The purpose of this project is to reduce the time it takes to deliver and troubl
 
 https://www.terraform.io/intro/index.html
 
-Terraform allows infrastructure config to be described with a high-level, declarative syntax. It uses this to generate an "execution plan" which is based off the difference between your infrastructure's current state and the desired state. It also features a "resource graph" which is a DAG that resolve dependencies between desired resources to determine an execution ordering. These features allow terraform to efficiently and easily handle infrastructure compliance as complex resource plans change and config drifts.
+Terraform allows infrastructure configuration to be described with a high-level, declarative syntax called HCL.
+
+Terraform generates an "execution plan" based on the difference between the infrastructure's current state and the desired state as specified by the HCL files.
+
+Terraform will autogenerate a "resource graph" of the desired state which automatically determines the order in which resources should be provisioned.
+
+These features allow terraform to efficiently and easily handle infrastructure compliance as resource plans change or config drifts.
 
 ### State
 
-State is stored locally in the `terraform.tfstate` JSON file, separately for each module. This file should (almost) never be modified manually. It is also advised that you interact with it via `terraform state` commands as oppose to accessing the file directly. Nonetheless it is a useful diagnosis tool.
+State is stored locally in the `terraform.tfstate` JSON file, separately for each module. This file should not be modified manually. Instead you should interact with it via `terraform state`. You can use this to diagnose state problems or perform "state surgery" if you need to recognize an out-of-band change.
 
 #### Importing existing infrastructure
 
-Terraform will try to create everything by default, as it. For this reason it is useful to import a resource that already exists in your infrastructure into terraform's current state. Doing so will inform terraform not to create the resource from scratch, however if some aspect of the resource is out of compliance with the module, terraform may still enact some change.
+Terraform by default assumes it needs to create everything in the module from scratch. If you have some resource (like an S3 bucket) that already exists, you should use `terraform import`.
 
-For example, say you already have a VPC peering connection and your module requires one. You don't want terraform to create a new, redundant VPC peering connection, so you choose to import the existing VPC peering into state. However, there are some modifications to the peering config that the module requires. In this case terraform will modify the existing peering instead of trying to create a new one.
+
+Doing so will inform terraform not to create the resource from scratch, however if some aspect of the resource is out of compliance with the module, terraform may still enact some change
 
 Usage: https://www.terraform.io/docs/import/
 
 #### Managing state of multiple deployments
 
-State file is by default located in each module directory directory. Keep this in mind if managing multiple different deployments of the same module. You may need to reference or swap out different state files for each deployment instance.
+If managing multiple different deployments, keep in mind that each state file is located by default in the module's directory. You will need to reference/swap other state files to avoid mixing up state tracking.
 
-In addition, you should ensure that you do not remove existing state file or use the wrong state file. If this happens you can use `terraform inport` to sync from the actual infrastructure state.
 
-### Modules
+## Developer Guide
 
-#### Root modules vs. submodules
+### Root modules vs. submodules
 
-To account for separation of concerns and the "single responsibility principle" terraform allows modules to invoke other modules. A module inside a module is treated like any other resource entity. The output of the module become its attributes, in the same way that for example the ARN of some arbitrary AWS resource becomes that resource's attribute. We use the term "root module" to refer to one that a user invokes directly and "submodule" to refer to a module invoked by another root module or submodule. It is encouraged that as you develop new modules you avoid reinventing the wheel and leverage our existing modules as much as possible.
+In accordance with the "single responsibility principle" terraform allows modules to invoke other modules. A module inside a module is treated like any other resource entity. The output of the module become its attributes (an attribute is produced instead of specified, such as the ARN of an AWS resource).
 
-#### Module variables
+We use the term "root module" to refer to one that a user invokes directly and "submodule" to refer to a module invoked by another root module or submodule.
+
+It is encouraged that as you develop new modules you avoid reinventing the wheel and leverage our existing modules as much as possible.
+
+### Module variables
 
 All modules have input referred to as "variables" and output. While these can be declared anywhere, please keep variables in a file `variables.tf` and outputs in a file `outputs.tf` so that consumers of that module can easily see its interface -- both human users and module developers should refer to these files for guidance. This is especially useful as <b>variables with a default value (i.e. overrideable variables) will not be prompted if a `-var-file` is not provided and thus can only be determined by inspecting the `variables.tf` file</b>
 
-## Contributing
+### Contributing
 
 All changes should be submitted via a detailed GitHub Pull Request to the `master` branch. PRs are more likely to get approved if they correspond to an open, reviewed issue.
 

@@ -34,9 +34,9 @@ variable "custom_iam_role_name" {
 
 
 
-# variable "databricks_shard_url" {
+# variable "databricks_worksapce_url" {
 #   type = "string"
-#   description = "URL to access Databricks shard"
+#   description = "URL to access Databricks workspace"
 # }
 
 # variable "databricks_access_token" {
