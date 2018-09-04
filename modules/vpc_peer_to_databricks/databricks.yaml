@@ -1,0 +1,1 @@
+overview: Generic implementation of a VPC peering between Databricks and another ("foreign") VPC.

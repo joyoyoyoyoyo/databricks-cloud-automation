@@ -1,3 +1,5 @@
+/user/plans/**
+/user/states/**
 **/.DS_Store
 **/*.tfvars
 **/*.tfstate
