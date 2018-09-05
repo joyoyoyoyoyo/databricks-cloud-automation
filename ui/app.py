@@ -4,6 +4,7 @@ import os
 import yaml
 import hcl
 import uuid
+import json
 
 app = Flask(__name__)
 tf = Terraform()
@@ -32,21 +33,31 @@ def get_module_details(module_name):
 			'variables': variables
 		}
 
+def get_target_dir(module_name):
+	return os.path.join(MODULES_PATH, module_name)
+
+def get_plan_path(plan_id):
+	return os.path.join('..', 'user', 'plans', plan_id)
+
+def get_state_path(state_name):
+	return os.path.join('..', 'user', 'states', state_name)
+
 def exec_plan(module_name, variables):
 	plan_id = str(uuid.uuid4())[:7]
-	target_dir = os.path.join(MODULES_PATH, module_name)
-	out_path = os.path.join('..', 'user', 'plans', plan_id)
+	target_dir = get_target_dir(module_name)
+	state_path = get_state_path(module_name)
+	out_path = get_plan_path(plan_id)
 
-	init_all_modules()
-	plan = tf.plan(target_dir, out=out_path, variables=variables.to_dict())
+	tf.init(os.path.join(MODULES_PATH, module_name))
+	plan = tf.plan(target_dir, state=state_path, out=out_path, variables=variables.to_dict())
 
 	return plan, plan_id
 
-def init_all_modules():
-	module_names = os.listdir(MODULES_PATH)
+# def init_all_modules():
+# 	module_names = os.listdir(MODULES_PATH)
 
-	for module_name in module_names:
-		tf.init(os.path.join(MODULES_PATH, module_name))
+# 	for module_name in module_names:
+# 		tf.init(os.path.join(MODULES_PATH, module_name))
 
 # Serve public directory:
 
@@ -77,3 +88,8 @@ def plan(module_name):
 	module = get_module_details(module_name)
 
 	return render_template('plan.html', module=module, variables=variables, plan_result=plan_result, plan_id=plan_id)
+
+@app.route("/apply/<plan_id>", methods=["POST"])
+def apply(plan_id):
+	plan_path = get_plan_path(plan_id)
+	return json.dumps(tf.apply(plan_path, refresh=True, auto_approve=True))

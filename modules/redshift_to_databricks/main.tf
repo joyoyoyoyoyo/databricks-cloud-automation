@@ -90,6 +90,6 @@ module "vpc_peer_to_databricks" {
   aws_region = "${var.aws_region}"
 
   foreign_vpc_id = "${data.aws_redshift_cluster.existing_cluster.vpc_id}"
-  databricks_workspace_name = "${var.databricks_workspace_name}"
+  databricks_vpc_id = "${var.databricks_vpc_id}"
   port_to_allow = 5439
 }
