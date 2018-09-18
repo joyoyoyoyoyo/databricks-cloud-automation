@@ -1,3 +1,7 @@
+# Advanced Guide
+
+This guide provides detailed information for power users and those wishing to contribute new modules.
+
 ## User Guide
 
 ### Terraform Overview
