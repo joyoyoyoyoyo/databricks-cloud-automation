@@ -7,9 +7,10 @@ This project aims to reduce the time it takes to deliver and troubleshoot common
 
 ## Quick Start
 
-1. `pip install git+https://github.com/databricks/databricks-cloud-automation.git`
-2. `databricks-cloud-manager`
-3. Open a browser and navigate to `localhost:5000`. Select a module to begin
+1. `git clone https://github.com/databricks/databricks-cloud-automation.git`
+2. `cd databricks-cloud-automation`
+3. `python setup.py install`
+4. Open a browser and navigate to `localhost:5000`. Select a module to begin
 
 ---
 
