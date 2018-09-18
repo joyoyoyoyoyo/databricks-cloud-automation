@@ -11,9 +11,6 @@ app = Flask(__name__)
 
 ROOT_PATH = os.path.join(os.path.dirname(__file__), '..')
 
-print(__file__)
-print(ROOT_PATH)
-
 # Returns list of module objects with metadata
 def get_modules():
 	module_names = os.listdir(os.path.join(ROOT_PATH, 'modules'))
