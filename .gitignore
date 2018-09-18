@@ -5,8 +5,7 @@
 /dist/**
 /build/**
 /*.egg-info/**
-/user/plans/**
-/user/states/**
+/user/**
 **/.DS_Store
 **/*.tfvars
 **/*.tfstate
