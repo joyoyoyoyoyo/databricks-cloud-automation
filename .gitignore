@@ -1,6 +1,6 @@
-/ui/__pycache__
-/ui/app.pyc
-/ui/crash.log
+/dca_ui/__pycache__
+/dca_ui/app.pyc
+/dca_ui/crash.log
 /dist/**
 /build/**
 /*.egg-info/**
