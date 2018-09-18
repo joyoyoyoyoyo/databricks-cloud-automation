@@ -9,7 +9,7 @@ This project aims to reduce the time it takes to deliver and troubleshoot common
 
 1. `pip install git+https://github.com/databricks/databricks-cloud-automation.git`
 2. `databricks-cloud-manager`
-3. Open a browser and navigate to `localhost:5000`. Select a module and begin automating!
+3. Open a browser and navigate to `localhost:5000`. Select a module to begin
 
 ---
 
