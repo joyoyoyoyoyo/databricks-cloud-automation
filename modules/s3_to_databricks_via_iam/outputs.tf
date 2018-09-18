@@ -9,3 +9,7 @@ output "s3_role_instance_profile" {
 output "s3_role_name_to_attach" {
   value = "${aws_iam_role.databricks_to_s3_role.name}"
 }
+
+output "Walkthrough" {
+  value ="Please add this instance profile to your Databricks workspace by navigating to the Admin Console and selecting 'IAM Roles'. When completed, apply the IAM Role to clusters as needed."
+}

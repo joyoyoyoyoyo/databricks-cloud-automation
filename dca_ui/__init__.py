@@ -6,20 +6,23 @@ import hcl
 import uuid
 import json
 
-app = Flask(__name__)
 tf = Terraform()
+app = Flask(__name__)
 
-MODULES_PATH = os.path.join('..', 'modules')
+ROOT_PATH = os.path.join(os.path.dirname(__file__), '..')
+
+print(__file__)
+print(ROOT_PATH)
 
 # Returns list of module objects with metadata
 def get_modules():
-	module_names = os.listdir(MODULES_PATH)
+	module_names = os.listdir(os.path.join(ROOT_PATH, 'modules'))
 	return [get_module_details(module_name) for module_name in module_names]
 
 # Given module, get metadata
 def get_module_details(module_name):
-	with open(os.path.join(MODULES_PATH, module_name, 'databricks.yaml'), 'r') as detail_file,\
-		 open(os.path.join(MODULES_PATH, module_name, 'variables.tf')) as variable_file:
+	with open(os.path.join(ROOT_PATH, 'modules', module_name, 'databricks.yaml'), 'r') as detail_file,\
+		 open(os.path.join(ROOT_PATH, 'modules', module_name, 'variables.tf')) as variable_file:
 
 		module_details = yaml.safe_load(detail_file)
 		variables = hcl.load(variable_file)['variable']
@@ -34,37 +37,39 @@ def get_module_details(module_name):
 		}
 
 def get_target_dir(module_name):
-	return os.path.join(MODULES_PATH, module_name)
+	return os.path.join(ROOT_PATH, 'modules', module_name)
 
 def get_plan_path(plan_id):
 	return os.path.join('..', 'user', 'plans', plan_id)
 
-def get_state_path(state_name):
-	return os.path.join('..', 'user', 'states', state_name)
+def save_vars(variables, module_name):
+	with open(os.path.join('..', 'user', 'vars', module_name + '.json'), 'w') as var_file:
+		json.dump(variables, var_file)
+
+def get_vars(module_name):
+	try:
+		with open(os.path.join('..', 'user', 'vars', module_name + '.json'), 'r') as var_file:
+			return json.loads(var_file.read())
+	except:
+		return None
 
 def exec_plan(module_name, variables):
 	plan_id = str(uuid.uuid4())[:7]
 	target_dir = get_target_dir(module_name)
-	state_path = get_state_path(module_name)
+	state_path = os.path.join('..', 'user', 'states', module_name + '.tfstate')
 	out_path = get_plan_path(plan_id)
 
-	tf.init(os.path.join(MODULES_PATH, module_name))
-	plan = tf.plan(target_dir, state=state_path, out=out_path, variables=variables.to_dict())
+	init_res = tf.init(os.path.join(ROOT_PATH, 'modules', module_name), input=False, upgrade=True, get=True)
+
+	plan = tf.plan(target_dir, refresh=True, state=state_path, out=out_path, variables=variables.to_dict())
 
 	return plan, plan_id
-
-# def init_all_modules():
-# 	module_names = os.listdir(MODULES_PATH)
-
-# 	for module_name in module_names:
-# 		tf.init(os.path.join(MODULES_PATH, module_name))
 
 # Serve public directory:
 
 @app.route("/public/<path:path>")
 def serve_public(path):
 	return send_from_directory('public', path)
-
 
 # Serve pages:
 
@@ -76,8 +81,8 @@ def index():
 @app.route("/modules/<module_name>")
 def module_page(module_name):
 	module = get_module_details(module_name)
-	return render_template('module.html', module=module)
-
+	existing_vars = get_vars(module_name)
+	return render_template('module.html', module=module, variables=existing_vars)
 
 # API:
 
@@ -86,10 +91,13 @@ def plan(module_name):
 	variables = request.form
 	plan_result, plan_id = exec_plan(module_name, variables)
 	module = get_module_details(module_name)
-
+	save_vars(variables, module_name)
 	return render_template('plan.html', module=module, variables=variables, plan_result=plan_result, plan_id=plan_id)
 
 @app.route("/apply/<plan_id>", methods=["POST"])
 def apply(plan_id):
 	plan_path = get_plan_path(plan_id)
-	return json.dumps(tf.apply(plan_path, refresh=True, auto_approve=True))
+	state_path = os.path.join('..', 'user', 'states', 'redshift_to_databricks.tfstate')
+	apply_res = tf.apply(plan_path, refresh=True, auto_approve=True, state_out=state_path)
+	print(apply_res)
+	return json.dumps(apply_res)

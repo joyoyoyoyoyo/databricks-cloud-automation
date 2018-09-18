@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Databricks Cloud Automation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/public/css/blog-post.css" rel="stylesheet">
+
+    <script>
+      function execute() {
+        if (!window.confirm('Confirm that you have read the execution plan thoroughly and acknowledge the recommended changes. You will have to rollback manually in the event of unintended side effects.')) return;
+
+        $.post("/apply/{{ plan_id }}",  function(res_str) {
+          try {
+            res = JSON.parse(res_str);
+            console.log(res);
+
+            var samp = document.getElementById("result_details");
+            var container = document.getElementById("result_container");
+            var modalFooter = document.getElementById("modal-footer");
+            var modalTitle = document.getElementById('modal-title');
+            var moreDetails = document.getElementById('more-details');
+            var fail = res[0] === 1
+
+            res[fail ? 2 : 1].split("\n").forEach(function(resLine) {
+              samp.innerHTML += resLine + '<br>';
+            });
+
+            if (fail) {
+              // Error
+              container.className += 'alert alert-danger';
+              modalTitle.innerHTML = 'An error occured while applying changes.';
+              moreDetails.innerHTML = 'Please review the error(s) below. Minor errors are common, and can often be manually resolved. Note that before the run was aborted prematurely, some changes may have still been made, and they might not have rolled back. If you would like to continue, you can try to remediate the below issue(s) manually and try again -- only the outstanding changes from the original plan will be applied the next time you use this same module, as the current state of changes has been saved for this module. If you do not wish to continue, you should double check that no significant changes were created in your infrastructure from this run before this run was aborted prematurely.';
+            } else {
+              // Success
+              modalTitle.innerHTML = 'Successfully applied all changes!';
+              container.className += 'alert alert-success';
+              moreDetails.innerHTML = 'Please review the below output thoroughly, especially the "Outputs" section, as some manual actions may be required to complete the process. Note also that in the future, you can revisit this module to help troubleshoot an unexpected change to your infrastructure --  by re-running this module at some later point in time, you can check if some resource has "drifted" out of compliance and needs to be re-applied.';
+
+              document.getElementById('try-again-btn').style.display = 'none';
+            }
+
+            modalFooter.style.display = 'block';
+          } catch (error) {
+            console.log(error);
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title">Applying Plan...</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="more-details"></p>
+            <div id="result_container">
+              <samp id="result_details">
+              </samp>
+            </div>
+          </div>
+          <div class="modal-footer" style="display: none;" id="modal-footer">
+            <a role="button" href="/modules/{{ module.name }}" class="btn btn-primary" id="try-again-btn">Try again</a>
+            <a role="button" href="/" class="btn btn-secondary">Go Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="/public/img/databricks.png" width="30" height="30" alt="">
+          Databricks Cloud Automation
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <!-- <li class="nav-item active">
+              <a class="nav-link" href="#">Modules
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">State</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li> -->
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <!-- Post Content Column -->
+        <div class="col-lg-12">
+
+          <!-- Title -->
+          <h1 class="mt-4">Module: {{ module.name }}</h1>
+
+          <p class="lead">
+            {{ module.overview }}
+          </p>
+
+
+          <hr>
+
+          <!-- Date/Time -->
+          <!-- <p>Posted on January 1, 2018 at 12:00 PM</p> -->
+
+          <!-- <hr>
+
+          <img class="img-fluid rounded" src="{{'/public/img/module_thumbnails/' + module.name + '.png'}}" alt="{{ module.name }}">
+
+          <hr> -->
+          
+
+          <!-- Comments Form -->
+          <div class="card my-4">
+            {% if plan_result[0] == 0 %}
+            <p>No changes needed!</p>
+            {% endif %}
+
+          	{% if plan_result[0] == 1 %}
+            <h2 class="card-header">Error: Unable to generate resource plan</h2>
+            <div class="card-body">
+            	<form>
+	            	<div class="alert alert-danger">
+					  <samp>
+		             		{% for line in plan_result[2].split('\n') %}
+		             		{{ line }}
+		             		<br>
+		             		{% endfor %}
+	             		</samp>
+					</div>
+				</form>
+            </div>
+
+            {% endif %}
+
+            {% if plan_result[0] == 2 %}
+            <h2 class="card-header">Review planned changes:</h2>
+            <div class="card-body highlight">
+            	<form>
+					     <samp>
+		             		{% for line in plan_result[1].split("------------------------------------------------------------------------")[1].split('\n') %}
+		             		{{ line }}
+		             		<br>
+		             		{% endfor %}
+	             	</samp>
+                <div class="alert alert-warning" role="alert">
+                  <span class="glyphicon glyphicon-warning-sign"></span>
+                  <strong>Warning: </strong>Selecting "Apply" will execute the above plan on your infrastructure. Please read the plan thoroughly and take note of what it will create, modify, or destroy. This plan is an auto-generated recommendation provided by Databricks, and Databricks does not guarantee that applying this recommendation will have the desired outcome.
+                  <button type="button" class="btn btn-primary" onclick="execute();" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-cloud"></span>Apply all changes to infrastructure</button>
+                </div>
+	             	
+	             </form>
+            </div>
+            {% endif %}
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Databricks</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  </body>
+
+</html>

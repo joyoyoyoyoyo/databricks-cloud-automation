@@ -5,12 +5,12 @@ variable "aws_access_key" {
 
 variable "aws_secret_key" {
   type = "string"
-  description = "AWS Secrete Key"
+  description = "AWS Secret Key"
 }
 
 variable "expire_query_results_days" {
   type = "string"
-  description = "# days before query results stored in S3 unload bucket are expired"
+  description = "Number of days before query results stored in S3 unload bucket are expired"
   default = "10"
 }
 

@@ -25,7 +25,7 @@ if __name__ == '__main__':
 	access_key, access_secret, region, cluster_identifier, role_arn = sys.argv[1:]
 	res = attach_role_to_cluster(access_key, access_secret, region, cluster_identifier, role_arn)
 
-	if res.ResponseMetadata.HTTPStatusCode != 200:
+	if res['ResponseMetadata']['HTTPStatusCode'] != 200:
 		print('attach_role_to_cluster failed with response:', res)
 		raise SystemExit(1)
 	else:

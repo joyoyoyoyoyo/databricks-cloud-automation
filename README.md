@@ -39,8 +39,6 @@ Optional steps:
 
 ### Terraform Overview
 
-![Terraform high level architecture](https://raw.githubusercontent.com/databricks/databricks-terraform-modules/master/terraform-overview.png?token=AmEvFAD0Kcc8MwBZRqJPuWcphUA797G5ks5bhxOhwA%3D%3D)
-
 https://www.terraform.io/intro/index.html
 
 Terraform allows infrastructure configuration to be described with a high-level, declarative syntax called HCL.
