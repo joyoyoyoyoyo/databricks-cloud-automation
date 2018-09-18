@@ -13,9 +13,6 @@ This project aims to reduce the time it takes to deliver and troubleshoot common
 3. 	`databricks-cloud-automation`
 4. Open a browser and navigate to `localhost:5000`. Select a module and begin automating/
 
-
-
-
-
+---
 
 To learn how to contribute a new module, check out the [advanced guide](https://github.com/databricks/databricks-cloud-automation/tree/master/docs/advanced-guide.md)
