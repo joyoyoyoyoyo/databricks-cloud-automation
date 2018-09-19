@@ -37,15 +37,15 @@ def get_target_dir(module_name):
 	return os.path.join(ROOT_PATH, 'modules', module_name)
 
 def get_plan_path(plan_id):
-	return os.path.join('..', 'user', 'plans', plan_id)
+	return os.path.join(ROOT_PATH, 'user', 'plans', plan_id)
 
 def save_vars(variables, module_name):
-	with open(os.path.join('..', 'user', 'vars', module_name + '.json'), 'w') as var_file:
+	with open(os.path.join(ROOT_PATH, 'user', 'vars', module_name + '.json'), 'w') as var_file:
 		json.dump(variables, var_file)
 
 def get_vars(module_name):
 	try:
-		with open(os.path.join('..', 'user', 'vars', module_name + '.json'), 'r') as var_file:
+		with open(os.path.join(ROOT_PATH, 'user', 'vars', module_name + '.json'), 'r') as var_file:
 			return json.loads(var_file.read())
 	except:
 		return None
@@ -53,7 +53,7 @@ def get_vars(module_name):
 def exec_plan(module_name, variables):
 	plan_id = str(uuid.uuid4())[:7]
 	target_dir = get_target_dir(module_name)
-	state_path = os.path.join('..', 'user', 'states', module_name + '.tfstate')
+	state_path = os.path.join(ROOT_PATH, 'user', 'states', module_name + '.tfstate')
 	out_path = get_plan_path(plan_id)
 
 	init_res = tf.init(os.path.join(ROOT_PATH, 'modules', module_name), input=False, upgrade=True, get=True)
@@ -94,7 +94,7 @@ def plan(module_name):
 @app.route("/apply/<plan_id>", methods=["POST"])
 def apply(plan_id):
 	plan_path = get_plan_path(plan_id)
-	state_path = os.path.join('..', 'user', 'states', 'redshift_to_databricks.tfstate')
+	state_path = os.path.join(ROOT_PATH, 'user', 'states', 'redshift_to_databricks.tfstate')
 	apply_res = tf.apply(plan_path, refresh=True, auto_approve=True, state_out=state_path)
 	print(apply_res)
 	return json.dumps(apply_res)
