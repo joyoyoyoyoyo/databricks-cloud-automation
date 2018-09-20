@@ -16,7 +16,7 @@ class PostInstall(install):
 		except:
 			print("Terraform install failed. You can finish installation manually by downloading the appropriate package here: https://www.terraform.io/downloads.html")
 			raise
-		print("Install complete. Run `databricks-cloud-automation` to begin.")
+		print("Install complete. Run `databricks-cloud-manager` to begin.")
 
 
 setup(name='databricks-cloud-automation',

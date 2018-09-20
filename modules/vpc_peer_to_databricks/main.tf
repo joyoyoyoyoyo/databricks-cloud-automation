@@ -55,9 +55,9 @@ resource "aws_route" "foreign_new_dest_route" {
 ### 4 ### Add rule to foreign security group allowing Databricks unmanaged access
 
 # Look up existing sg associated with the foreign VPC
-data "aws_security_group" "foreign_sg" {
-  vpc_id = "${data.aws_vpc.foreign_vpc.id}" # Assumes only one sg for vpc
-}
+# data "aws_security_group" "foreign_sg" {
+  # vpc_id = "${data.aws_vpc.foreign_vpc.id}" # Assumes only one sg for vpc
+# }
 
 # Look up existing unmanaged sg associated with the Databricks VPC
 data "aws_security_group" "databricks_unmanaged_sg" {
@@ -69,7 +69,7 @@ data "aws_security_group" "databricks_unmanaged_sg" {
 resource "aws_security_group_rule" "ingress_from_foreign_rule" {
   security_group_id = "${data.aws_security_group.databricks_unmanaged_sg.id}"
 
-  source_security_group_id = "${data.aws_security_group.foreign_sg.id}"
+  source_security_group_id = "${var.foreign_sg_id}"
   type = "ingress"
   protocol = "tcp"
   from_port = "${var.port_to_allow}"

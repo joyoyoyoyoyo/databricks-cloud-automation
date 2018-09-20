@@ -27,3 +27,8 @@ variable "port_to_allow" {
   type = "string"
   description = "TCP port to open between VPCs (all inter-VPC traffic will be permitted on this port)"
 }
+
+variable "foreign_sg_id" {
+  type = "string"
+  description = "Security ID of the foreign service."
+}
