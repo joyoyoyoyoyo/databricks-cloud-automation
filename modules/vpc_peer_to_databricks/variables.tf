@@ -20,7 +20,7 @@ variable "foreign_vpc_id" {
 
 variable "databricks_vpc_id" {
   type = "string"
-  description = "ID of VPC which was used to deploy Databricks. Contact sales@databricks.com for help determining your Databricks VPC ID or deploying a Databricks workspace."
+  description = "ID of VPC which was used to deploy Databricks."
 }
 
 variable "port_to_allow" {
@@ -31,4 +31,9 @@ variable "port_to_allow" {
 variable "foreign_sg_id" {
   type = "string"
   description = "Security ID of the foreign service."
+}
+
+variable "enterprise_workspace_id" {
+  type = "string"
+  description = "If you are using a multitenant deployment, LEAVE THIS FIELD BLANK. If you are using an enterprise deployment, contact Databricks to determine your Workspace ID and paste the Workspace ID here"
 }

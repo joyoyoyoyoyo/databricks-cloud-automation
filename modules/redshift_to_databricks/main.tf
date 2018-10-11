@@ -39,7 +39,7 @@ module "s3_to_databricks_via_iam" {
   # databricks_workspace_url = "${var.databricks_workspace_url}"
   # databricks_access_token = "${var.databricks_access_token}"
 
-  s3_bucket_name = "${aws_s3_bucket.unload_bucket.bucket}"
+  s3_bucket_name = "${aws_s3_bucket.unload_bucket.id}"
 }
 
 ### 2 ### Create role for Redshfit to access the unload bucket:

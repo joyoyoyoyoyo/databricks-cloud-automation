@@ -46,7 +46,7 @@ variable "redshift_cluster_id" {
 
 variable "databricks_vpc_id" {
   type = "string"
-  description = "ID of VPC which was used to deploy Databricks. Contact sales@databricks.com for help determining your Databricks VPC ID or deploying a Databricks workspace."
+  description = "ID of VPC which was used to deploy Databricks."
 }
 
 # variable "databricks_workspace_url" {
