@@ -15,4 +15,8 @@ This project aims to reduce the time it takes to deliver and troubleshoot common
 
 ---
 
+To report an issue or feature request, please use the Github Issues tracker
+
+---
+
 To learn how to contribute a new module, check out the [advanced guide](https://github.com/databricks/databricks-cloud-automation/tree/master/docs/advanced-guide.md)
