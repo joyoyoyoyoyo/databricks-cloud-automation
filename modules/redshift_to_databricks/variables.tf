@@ -49,6 +49,11 @@ variable "databricks_vpc_id" {
   description = "ID of VPC which was used to deploy Databricks."
 }
 
+variable "enterprise_workspace_id" {
+  type = "string"
+  description = "If you are using a multitenant deployment, LEAVE THIS FIELD BLANK. If you are using an enterprise deployment, contact Databricks to determine your Workspace ID and paste the Workspace ID here"
+}
+
 # variable "databricks_workspace_url" {
 #   type = "string"
 #   description = "URL to access Databricks workspace"

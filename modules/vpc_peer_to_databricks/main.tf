@@ -61,7 +61,8 @@ resource "aws_route" "foreign_new_dest_route" {
 
 # Look up existing unmanaged sg associated with the Databricks VPC
 data "aws_security_group" "databricks_unmanaged_sg" {
-  # Select only the unmanaged group - note that naming convention differs based on multi vs single tenant deployments
+  # Select only the unmanaged group - note that naming convention differs based on multi vs single tenant deployments.
+  # Empty enterprise_workspace_id means multitenant
   name = "${ var.enterprise_workspace_id == "" ? "${data.aws_vpc.databricks_vpc.tags.Name}-worker-unmanaged" : "dbe-worker-${var.enterprise_workspace_id}-worker-unmanaged" }"
   vpc_id = "${data.aws_vpc.databricks_vpc.id}"
 }

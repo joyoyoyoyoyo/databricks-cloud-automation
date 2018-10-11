@@ -92,5 +92,7 @@ module "vpc_peer_to_databricks" {
   foreign_vpc_id = "${data.aws_redshift_cluster.existing_cluster.vpc_id}"
   databricks_vpc_id = "${var.databricks_vpc_id}"
   foreign_sg_id = "${data.aws_redshift_cluster.existing_cluster.vpc_security_group_ids.0}"
+  enterprise_workspace_id = "${var.enterprise_workspace_id}"
+
   port_to_allow = 5439
 }
