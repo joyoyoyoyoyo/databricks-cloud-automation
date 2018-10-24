@@ -1,4 +1,5 @@
 from flask import Flask, render_template, send_from_directory, request
+from flask_wtf.csrf import CSRFProtect
 from python_terraform import *
 import os
 import yaml

@@ -33,6 +33,7 @@ setup(name='databricks-cloud-automation',
 	},
 	install_requires=[
 		'Flask',
+		'flask-WTF',
 		'pyyaml',
 		'python-terraform',
 		'pyhcl',
