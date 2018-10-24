@@ -15,8 +15,12 @@ This project aims to reduce the time it takes to deliver and troubleshoot common
 
 ---
 
+### Notes:
+
 To report an issue or feature request, please use the Github Issues tracker
 
----
-
 To learn how to contribute a new module, check out the [advanced guide](https://github.com/databricks/databricks-cloud-automation/tree/master/docs/advanced-guide.md)
+
+
+#### Security disclaimer
+This module is only intended to be run locally by using the databricks-cloud-automation CLI command. It is not intended to be run as a web service.
