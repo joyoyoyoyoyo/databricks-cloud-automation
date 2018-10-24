@@ -108,6 +108,11 @@
                   <br>
                   <small><b>Recommended: {{ variable_details.default }}</b></small>
                   {% endif %}
+
+                  {% if 'secret' in variable_name %}
+                  <br>
+                  <small><b>Note: This field must be re-entered on subsequent runs</b></small>
+                  {% endif %}
                 </div>
 
                 {% endfor %}

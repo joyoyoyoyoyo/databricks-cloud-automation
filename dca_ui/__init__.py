@@ -33,6 +33,15 @@ def get_module_details(module_name):
 			'variables': variables
 		}
 
+def prune_var_secrets(variables):
+	pruned_variables = dict()
+
+	for k, v in variables.items():
+		if not 'secret' in k:
+			pruned_variables[k] = v
+
+	return pruned_variables
+
 def get_target_dir(module_name):
 	return os.path.join(ROOT_PATH, 'modules', module_name)
 
@@ -40,8 +49,10 @@ def get_plan_path(plan_id):
 	return os.path.join(ROOT_PATH, 'user', 'plans', plan_id)
 
 def save_vars(variables, module_name):
+	variables_no_secrets = prune_var_secrets(variables)
+
 	with open(os.path.join(ROOT_PATH, 'user', 'vars', module_name + '.json'), 'w') as var_file:
-		json.dump(variables, var_file)
+		json.dump(variables_no_secrets, var_file)
 
 def get_vars(module_name):
 	try:
@@ -55,11 +66,8 @@ def exec_plan(module_name, variables):
 	target_dir = get_target_dir(module_name)
 	state_path = os.path.join(ROOT_PATH, 'user', 'states', module_name + '.tfstate')
 	out_path = get_plan_path(plan_id)
-
 	init_res = tf.init(os.path.join(ROOT_PATH, 'modules', module_name), input=False, upgrade=True, get=True)
-
 	plan = tf.plan(target_dir, refresh=True, state=state_path, out=out_path, variables=variables.to_dict())
-
 	return plan, plan_id
 
 # Serve public directory:
