@@ -101,8 +101,7 @@
 
                 <div class="form-group">
                   <label for="{{ variable_name }}" class="form-label">{{ variable_name }}</label>
-                  <!-- If the variable name incldues "secret" then make it a password input -->
-                  <input type="{{ 'password' if ('secret' in variable_name) else '' }}" class="form-control" id="{{ variable_name }}" name="{{ variable_name }}" value="{{ variables[variable_name] or '' }}">
+                  <input class="form-control" id="{{ variable_name }}" name="{{ variable_name }}" value="{{ variables[variable_name] or '' }}">
                   <small>{{ variable_details.description }}</small>
 
                   {% if variable_details.default %}
