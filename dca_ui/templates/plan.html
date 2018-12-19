@@ -20,7 +20,7 @@
       function execute() {
         if (!window.confirm('Confirm that you have read the execution plan thoroughly and acknowledge the recommended changes. You will have to rollback manually in the event of unintended side effects.')) return;
 
-        $.post("/apply/{{ plan_id }}",  function(res_str) {
+        $.post("/apply/{{ plan_id }}/{{ module.name }}",  function(res_str) {
           try {
             res = JSON.parse(res_str);
             console.log(res);
@@ -40,7 +40,7 @@
               // Error
               container.className += 'alert alert-danger';
               modalTitle.innerHTML = 'An error occured while applying changes.';
-              moreDetails.innerHTML = 'Please review the error(s) below. Minor errors are common, and can often be manually resolved. Note that before the run was aborted prematurely, some changes may have still been made, and they might not have rolled back. If you would like to continue, you can try to remediate the below issue(s) manually and try again -- only the outstanding changes from the original plan will be applied the next time you use this same module, as the current state of changes has been saved for this module. If you do not wish to continue, you should double check that no significant changes were created in your infrastructure from this run before this run was aborted prematurely.';
+              moreDetails.innerHTML = 'Please review the error(s) below. Minor errors are common, and can often be manually resolved. Note that before the run was aborted prematurely, some changes may have still been made, and they might not have rolled back. If you would like to continue, you can try to remediate the below issue(s) manually and try again -- only the outstanding changes from the original plan will be applied the next time you use this same module, as the current state of changes has been saved for this module. If you do not wish to continue, you should double check that no significant changes were created from this run before this run was aborted prematurely.';
             } else {
               // Success
               modalTitle.innerHTML = 'Successfully applied all changes!';

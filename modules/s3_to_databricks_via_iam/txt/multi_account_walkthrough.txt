@@ -1,0 +1,27 @@
+On the Spark tab on the cluster detail page, set the following properties:
+
+
+spark.hadoop.fs.s3.impl com.databricks.s3a.S3AFileSystem
+spark.hadoop.fs.s3a.impl com.databricks.s3a.S3AFileSystem
+spark.hadoop.fs.s3n.impl com.databricks.s3a.S3AFileSystem
+spark.hadoop.fs.s3a.canned.acl BucketOwnerFullControl
+spark.hadoop.fs.s3a.acl.default BucketOwnerFullControl
+
+
+Verify that you can write data to the S3 bucket, and check that the permissions enable other tools and users to access the contents written by Databricks.
+
+Use the code below to deploy the settings globally:
+
+
+%python
+dbutils.fs.put("/databricks/init/config-s3-cross-account-acls.sh", """
+cat >/databricks/driver/conf/s3-cross-account-spark.conf <<EOL
+[driver] {
+    # S3 cross account access configs to set proper ACLs
+    "spark.hadoop.fs.s3.impl" = "com.databricks.s3a.S3AFileSystem"
+    "spark.hadoop.fs.s3a.impl" = "com.databricks.s3a.S3AFileSystem"
+    "spark.hadoop.fs.s3n.impl" = "com.databricks.s3a.S3AFileSystem"
+    "spark.hadoop.fs.s3a.canned.acl" = "BucketOwnerFullControl"
+    "spark.hadoop.fs.s3a.acl.default" = "BucketOwnerFullControl"
+}
+EOL """, True)

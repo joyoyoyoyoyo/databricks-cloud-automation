@@ -1,21 +1,16 @@
 provider "aws" {
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
-  region = "${var.aws_region}"
+  access_key = "${var.aws_databricks_acct_access_key}"
+  secret_key = "${var.aws_databricks_acct_secret_key}"
+  region = "${var.aws_databrics_acct_region}"
 }
 
-# # This is only initialized if the peering is cross account.
-# # In this case the "foreign"
-# # account refers to the account that is not the account hosting the
-# # Databricks data plane account. If both VPCs are in the same account,
-# # then the above "default" (aka non-aliased) provider is used for all resources
-# # in this module 
-# provider "aws" {
-#   alias = "aws-foreign-acct"
-#   access_key = "${var.aws_foreign_acct_access_key}"
-#   secret_key = "${var.aws_foreign_acct_secret_key}"
-#   region = "${var.aws_foreign_acct_region}"
-# }
+# Only initialized if the peering is cross account
+provider "aws" {
+  alias = "aws-foreign-acct"
+  access_key = "${var.aws_foreign_acct_access_key}"
+  secret_key = "${var.aws_foreign_acct_secret_key}"
+  region = "${var.aws_foreign_acct_region}"
+}
 
 # Get VPC of foreign deployment
 data "aws_vpc" "foreign_vpc" {

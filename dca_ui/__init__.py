@@ -68,6 +68,8 @@ def exec_plan(module_name, variables):
 	state_path = os.path.join(ROOT_PATH, 'user', 'states', module_name + '.tfstate')
 	out_path = get_plan_path(plan_id)
 	init_res = tf.init(os.path.join(ROOT_PATH, 'modules', module_name), input=False, upgrade=True, get=True)
+	version = tf.cmd('version')
+	print('Terraform Version: ' + version[1])
 	plan = tf.plan(target_dir, refresh=True, state=state_path, out=out_path, variables=variables.to_dict())
 	return plan, plan_id
 
@@ -100,10 +102,13 @@ def plan(module_name):
 	save_vars(variables, module_name)
 	return render_template('plan.html', module=module, variables=variables, plan_result=plan_result, plan_id=plan_id)
 
-@app.route("/apply/<plan_id>", methods=["POST"])
-def apply(plan_id):
+@app.route("/apply/<plan_id>/<module_name>", methods=["POST"])
+def apply(plan_id, module_name):
+	print(105)
 	plan_path = get_plan_path(plan_id)
-	state_path = os.path.join(ROOT_PATH, 'user', 'states', 'redshift_to_databricks.tfstate')
+	print(107)
+	state_path = os.path.join(ROOT_PATH, 'user', 'states', module_name + '.tfstate')
 	apply_res = tf.apply(plan_path, refresh=True, auto_approve=True, state_out=state_path)
+	print(110)
 	print(apply_res)
 	return json.dumps(apply_res)
