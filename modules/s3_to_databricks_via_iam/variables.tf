@@ -25,11 +25,9 @@ variable "databricks_deployment_role" {
   description = "Role used to deploy Databricks. This may be determined from the account management console"
 }
 
-# Optional variables:
-
 variable "custom_iam_role_name" {
   type        = "string"
-  description = "Optionally assign a custom name to the IAM role"
+  description = "Assign a custom name to the new IAM role"
 }
 
 variable "aws_foreign_acct_access_key" {

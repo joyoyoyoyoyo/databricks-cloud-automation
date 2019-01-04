@@ -96,7 +96,7 @@ data "template_file" "databricks_to_s3_policy_config" {
 # New policy gets added to the existing Databricks EC2 role:
 resource "aws_iam_policy" "pass_through_policy" {
   # provider = "aws.db_acct"
-  name     = "${var.databricks_deployment_role}-policy"
+  name     = "${var.databricks_deployment_role}-policy" # TODO do not do not use the role name
   policy   = "${data.template_file.pass_through_policy_config.rendered}"
 }
 
