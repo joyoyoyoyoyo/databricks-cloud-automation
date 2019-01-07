@@ -14,7 +14,8 @@ ROOT_PATH = os.path.join(os.path.dirname(__file__), '..')
 
 # Returns list of module objects with metadata
 def get_modules():
-	module_names = os.listdir(os.path.join(ROOT_PATH, 'modules'))
+	all_files = os.listdir(os.path.join(ROOT_PATH, 'modules'))
+	module_names = [file for file in all_files if not file.startswith('.')]
 	return [get_module_details(module_name) for module_name in module_names]
 
 # Given module, get metadata
