@@ -27,7 +27,7 @@ variable "databricks_deployment_role" {
 
 variable "custom_iam_role_name" {
   type        = "string"
-  description = "Assign a custom name to the new IAM role"
+  description = "You must assign a name to the new IAM role that is not currently used by a role in this region"
 }
 
 variable "aws_foreign_acct_access_key" {
