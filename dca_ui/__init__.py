@@ -11,7 +11,7 @@ tf = Terraform()
 app = Flask(__name__)
 
 ROOT_PATH = os.path.join(os.path.dirname(__file__), '..')
-DEV_MODE = True
+DEV_MODE = False
 
 # Returns list of module objects with metadata
 def get_modules():
