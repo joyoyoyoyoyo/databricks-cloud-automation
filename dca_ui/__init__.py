@@ -11,6 +11,7 @@ tf = Terraform()
 app = Flask(__name__)
 
 ROOT_PATH = os.path.join(os.path.dirname(__file__), '..')
+DEV_MODE = True
 
 # Returns list of module objects with metadata
 def get_modules():
@@ -36,6 +37,9 @@ def get_module_details(module_name):
 		}
 
 def prune_var_secrets(variables):
+	if DEV_MODE:
+		return variables
+
 	pruned_variables = dict()
 
 	for k, v in variables.items():

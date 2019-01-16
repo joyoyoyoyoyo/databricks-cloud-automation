@@ -30,10 +30,27 @@ variable "port_to_allow" {
 
 variable "foreign_sg_id" {
   type = "string"
-  description = "Security ID of the foreign service."
+  description = "ID of the security group containing the foreign service to connect."
 }
 
 variable "enterprise_workspace_id" {
   type = "string"
   description = "If you are using a multitenant deployment, LEAVE THIS FIELD BLANK. If you are using an enterprise deployment, contact Databricks to determine your Workspace ID and paste the Workspace ID here"
+}
+
+
+
+variable "aws_foreign_acct_access_key" {
+  type        = "string"
+  description = "Specify only if S3 and Databricks are in separate accounts -- this is for the S3 account and the above account will be the Databricks account"
+}
+
+variable "aws_foreign_acct_secret_key" {
+  type        = "string"
+  description = "Specify only if S3 and Databricks are in separate accounts - if using S3 in a separate account -- this is for the S3 account and the above account will be the Databricks account"
+}
+
+variable "aws_foreign_acct_region" {
+  type        = "string"
+  description = "Specify only if S3 and Databricks are in separate accounts - if using S3 in a separate account -- this is for the S3 account and the above account will be the Databricks account"
 }

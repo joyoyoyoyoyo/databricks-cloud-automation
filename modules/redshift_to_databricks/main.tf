@@ -38,6 +38,10 @@ module "s3_to_databricks_via_iam" {
   custom_iam_role_name = "${var.custom_iam_role_name_for_s3_conection}"
   # databricks_workspace_url = "${var.databricks_workspace_url}"
   # databricks_access_token = "${var.databricks_access_token}"
+  
+  aws_foreign_acct_access_key = "${var.aws_foreign_acct_access_key}"
+  aws_foreign_acct_secret_key = "${var.aws_foreign_acct_secret_key}"
+  aws_foreign_acct_region = "${var.aws_foreign_acct_region}"
 
   s3_bucket_name = "${aws_s3_bucket.unload_bucket.id}"
 }
@@ -88,6 +92,10 @@ module "vpc_peer_to_databricks" {
   aws_access_key = "${var.aws_access_key}"
   aws_secret_key = "${var.aws_secret_key}"
   aws_region = "${var.aws_region}"
+
+  aws_foreign_acct_access_key = "${var.aws_foreign_acct_access_key}"
+  aws_foreign_acct_secret_key = "${var.aws_foreign_acct_secret_key}"
+  aws_foreign_acct_region = "${var.aws_foreign_acct_region}"
 
   foreign_vpc_id = "${data.aws_redshift_cluster.existing_cluster.vpc_id}"
   databricks_vpc_id = "${var.databricks_vpc_id}"
