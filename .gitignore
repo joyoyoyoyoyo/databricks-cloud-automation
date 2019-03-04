@@ -1,6 +1,6 @@
 /terrafrom-installer.sh
 /dca_ui/__pycache__
-/dca_ui/app.pyc
+/**/*.pyc
 /dca_ui/crash.log
 /dist/**
 /build/**

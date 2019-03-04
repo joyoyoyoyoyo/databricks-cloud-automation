@@ -20,7 +20,7 @@ class PostInstall(install):
 
 
 setup(name='databricks-cloud-automation',
-	version='1.0.0',
+	version='0.1.0',
 	description='Databricks Cloud Automation',
 	url='databricks.com',
 	author='Databricks',
