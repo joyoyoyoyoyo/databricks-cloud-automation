@@ -21,6 +21,8 @@ To report an issue or feature request, please use the Github Issues tracker
 
 To learn how to contribute a new module, check out the [advanced guide](https://github.com/databricks/databricks-cloud-automation/tree/master/docs/advanced-guide.md)
 
+When providing access/secret keys to use a module on a given cloud provider, it is recommended that you create a new role that is locked down to only make the changes (creates and updates, primarily) necessary. For example, if you are creating a connection to AWS Redshift, you should allow DescribeClusters permission without any Write access level permissions.
 
-#### Security disclaimer
-This module is only intended to be run locally by using the databricks-cloud-automation CLI command. It is not intended to be run as a web service.
+#### Disclaimers
+- The UI server is only intended to be run locally by using the databricks-cloud-automation CLI command. It is not intended to be run as a web service.
+- Databricks does not provide formal support or SLA for this project.
