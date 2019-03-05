@@ -5,7 +5,15 @@
 
 This project aims to reduce the time it takes to deliver and troubleshoot common cloud workloads and scenarios with Databricks. 
 
-## Quick Start
+## Using the Terraform modules
+
+
+
+## Using the UI
+
+We provide a UI to simplify using the Terraform modules. Instead of passing variables to the module and creating plans to execute a module, instead you will pass variables through a form. This is an easier to use method for those Terraform, with the tradeoff that you may lose some of the flexibility of functionality. For example, advanced features like deploying multiple states for the same module, importing existing resource state into a state, or modifying a module to tailor it to your specific deployment are not possible through the UI and instead should be handled directly through the Terraform CLI.
+
+### Quick Start
 
 1. `git clone https://github.com/databricks/databricks-cloud-automation.git`
 2. `cd databricks-cloud-automation`
