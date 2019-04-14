@@ -1,6 +1,7 @@
 # dillon.bostwick@databricks.com
 
 provider "aws" { # Default
+  # alias      = "db_acct"
   region     = "${var.aws_region}"
   access_key = "${var.aws_access_key}"
   secret_key = "${var.aws_secret_key}"

@@ -1,8 +1,8 @@
 overview: >
-  Establish all needed connections needed to integrate Databricks to an existing Redshift cluster in an expisting VPC and perform JDBC queries to Redshift.
+  Establish all needed connections needed to integrate Databricks to an existing Redshift cluster in an existing VPC and perform JDBC queries to Redshift.
 
 description: >
-  Establish all needed connections needed to integrate Databricks to an existing Redshift cluster in an expisting VPC and perform JDBC queries to Redshift.
+  Establish all needed connections needed to integrate Databricks to an existing Redshift cluster in an existing VPC and perform JDBC queries to Redshift.
 
   The following steps will be peformed to complete a Redshift integration:
   - Create S3 bucket for "UNLOAD" of query results (referred to as the "unload bucket")
