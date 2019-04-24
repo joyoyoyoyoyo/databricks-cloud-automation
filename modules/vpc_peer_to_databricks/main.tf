@@ -1,7 +1,7 @@
 provider "aws" {
-  access_key = "${var.aws_databricks_acct_access_key}"
-  secret_key = "${var.aws_databricks_acct_secret_key}"
-  region = "${var.aws_databrics_acct_region}"
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
+  region = "${var.aws_region}"
 }
 
 # This is only initialized if the connection is cross account.
