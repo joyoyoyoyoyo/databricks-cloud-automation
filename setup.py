@@ -20,12 +20,14 @@ class PostInstall(install):
 
 
 setup(name='databricks-cloud-automation',
-	version='0.1.0',
+	version='0.1.9',
 	description='Databricks Cloud Automation',
-	url='databricks.com',
+	long_description="""Databricks Cloud Automation uses Terraform to simplify the process of provisioning cloud infrastructure for integration with Databricks.
+						You may use a prepackaged GUI or terraform directly to deploy these modules in your environment.""",
+	url='http://www.databricks.com',
 	author='Databricks',
 	author_email='sales@databricks.com',
-	license='TBD',
+	license='Apache License 2.0',
 	zip_safe=False,
 	packages=find_packages(),
 	cmdclass={
@@ -33,8 +35,7 @@ setup(name='databricks-cloud-automation',
 	},
 	install_requires=[
 		'Flask',
-		'flask-WTF',
-		'pyyaml',
+		'PyYAML',
 		'python-terraform',
 		'pyhcl',
 		'gunicorn'
