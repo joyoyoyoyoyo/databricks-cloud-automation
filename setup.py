@@ -20,7 +20,7 @@ class PostInstall(install):
 
 
 setup(name='databricks-cloud-automation',
-	version='0.1.8',
+	version='0.1.9',
 	description='Databricks Cloud Automation',
 	long_description="""Databricks Cloud Automation uses Terraform to simplify the process of provisioning cloud infrastructure for integration with Databricks.
 						You may use a prepackaged GUI or terraform directly to deploy these modules in your environment.""",
